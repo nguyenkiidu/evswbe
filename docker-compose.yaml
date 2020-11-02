@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
+    tty: true
+    stdin_open: true
+    image: eventswish:development
+    env_file: .env
+
+  rails:
+    <<: *base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+    image: eventswish-rails:development
+    volumes:
+      - ./:/app:delegated
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    ports:
+      - 3000:3000
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+
+volumes:
+  cache:
+  bundle:
