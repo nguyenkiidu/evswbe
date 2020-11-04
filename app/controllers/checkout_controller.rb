@@ -33,4 +33,25 @@ class CheckoutController < ApplicationController
     render json: { url: session.url }
   end
 
+  def upgrade
+    subscription = Stripe::Subscription.retrieve(params[:subscription])
+
+    new_subscription = Stripe::Subscription.update(
+      subscription.id,
+      {
+        cancel_at_period_end: false,
+        proration_behavior: 'always_invoice',
+        items: [
+          {
+            id: subscription.items.data[0].id,
+            price: ENV["#{params[:plan_type].upcase}_PREFERRED_PRICE_ID"]
+          }
+        ]
+      }
+    )
+    render json: { status: 'ok', subscription: new_subscription }
+  rescue => e
+    render json: { error: e.message }, status: 400
+  end
+
 end
