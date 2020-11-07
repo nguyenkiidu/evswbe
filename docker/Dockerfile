@@ -35,11 +35,6 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 
 COPY . /app
 
-# generate production assets if production environment
-RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile; \
-  fi
-
 # final build stage
 FROM ruby:2.7.1-alpine
 
