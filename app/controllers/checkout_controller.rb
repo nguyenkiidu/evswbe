@@ -3,6 +3,10 @@ class CheckoutController < ApplicationController
     redirect_to 'https://eventswish.com'
   end
 
+  def cancellation_request
+    CancelMailer.send_cancel_request(params).deliver_now
+  end
+
   def checkout_session
     session = Stripe::Checkout::Session.retrieve(params[:session_id])
     render json: { session: session }
