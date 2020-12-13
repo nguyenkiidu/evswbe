@@ -11,9 +11,9 @@ class UploadsController < ApplicationController
     end
     extract_zip(file_path, dir)
     if Dir[Rails.root.join("public/uploads/3dtours/#{params[:userId]}/*")].length == 2
-      tour_url = "#{ENV['DOMAIN']}/uploads/3dtours/#{params[:userId]}/#{file.original_filename.split('.').first}/"
+      tour_url = "#{ENV['CHECKOUT_DOMAIN']}/uploads/3dtours/#{params[:userId]}/#{file.original_filename.split('.').first}/"
     else
-      tour_url = "#{ENV['DOMAIN']}/uploads/3dtours/#{params[:userId]}/"
+      tour_url = "#{ENV['CHECKOUT_DOMAIN']}/uploads/3dtours/#{params[:userId]}/"
     end
     render json: { tour_url: tour_url }
   end
