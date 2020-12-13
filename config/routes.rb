@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   post '/create-checkout-session' => 'checkout#create_checkout_session'
   post '/upgrade' => 'checkout#upgrade'
   post '/cancellation-request' => 'checkout#cancellation_request'
+  post '/uploads' => 'uploads#create'
 end

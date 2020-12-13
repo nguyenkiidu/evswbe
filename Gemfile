@@ -9,7 +9,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'stripe'
 gem 'dotenv'
 gem 'rack-cors'
-
+gem 'rubyzip'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
